@@ -17,9 +17,14 @@ describe('TypeNumber', () => {
         ok5: Types.number().integer(),
         ok6: Types.number().integer(),
         ok7: Types.number().integer(),
+        ok8: Types.number().integer(),
+        ok9: Types.number().integer(),
+        ok10: Types.number().integer(),
+        ok11: Types.number().integer(),
         ko1: Types.number().integer(),
         ko2: Types.number().integer(),
         ko3: Types.number().integer(),
+        ko4: Types.number().integer(),
       });
 
       const ok = {
@@ -30,8 +35,17 @@ describe('TypeNumber', () => {
         ok5: '0',
         ok6: '-20',
         ok7: '20.10',
+        ok8: 0.001,
+        ok9: 1e3,
+        ok10: 1e-3,
+        ok11: 1e-2,
       };
-      const ko = { ko1: 'a20', ko2: '20a', ko3: '20,10' };
+      const ko = {
+        ko1: 'a20',
+        ko2: '20a',
+        ko3: '20,10',
+        ko4: '20ee2',
+      };
       const value = { ...ok, ...ko };
 
       schema.test(value);
@@ -42,6 +56,9 @@ describe('TypeNumber', () => {
         ok5: 0,
         ok6: -20,
         ok7: 20,
+        ok8: 0,
+        ok10: 0,
+        ok11: 0,
       });
       expect(Object.keys(ko)).toEqual(Object.keys(schema._errors));
     });
@@ -54,9 +71,15 @@ describe('TypeNumber', () => {
         ok4: Types.number(),
         ok5: Types.number(),
         ok6: Types.number(),
+        ok7: Types.number(),
+        ok8: Types.number(),
+        ok9: Types.number(),
+        ok10: Types.number(),
+        ok11: Types.number(),
         ko1: Types.number(),
         ko2: Types.number(),
         ko3: Types.number(),
+        ko4: Types.number(),
       });
 
       const ok = {
@@ -66,13 +89,29 @@ describe('TypeNumber', () => {
         ok4: '20.30',
         ok5: '0.30',
         ok6: '-20.30',
+        ok7: '20.10',
+        ok8: 0.001,
+        ok9: 1e3,
+        ok10: 1e-3,
+        ok11: 1e-2,
       };
-      const ko = { ko1: 'a20', ko2: '20a', ko3: '20,10' };
+      const ko = {
+        ko1: 'a20',
+        ko2: '20a',
+        ko3: '20,10',
+        ko4: '20ee2',
+      };
       const value = { ...ok, ...ko };
 
       schema.test(value);
 
-      expect(schema.value).toEqual({ ...ok, ok4: 20.3, ok5: 0.3, ok6: -20.3 });
+      expect(schema.value).toEqual({
+        ...ok,
+        ok4: 20.3,
+        ok5: 0.3,
+        ok6: -20.3,
+        ok7: 20.1,
+      });
       expect(Object.keys(ko)).toEqual(Object.keys(schema._errors));
     });
   });
