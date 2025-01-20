@@ -32,7 +32,8 @@ function _param(file, type, keyBase, location) {
         fs.appendFileSync(file, ` * @apiParam {${sType}} ${sKeyD} ${formatedLocation}${description}\n`);
         if (tmpType instanceof TypeObject) {
           _param(file, tmpType, sKey, location);
-        }}
+        }
+      }
     }
   } else if (type instanceof TypeArray) {
     const sType = capitalize(type._type || 'Any');
@@ -79,7 +80,7 @@ export function generateDoc(classRoute, route) {
     const apiPermission = options.accesses.map(e => e.name || e).join(' OR ');
     fs.appendFileSync(file, ` * @apiPermission ${apiPermission}\n`);
   } else if (Array.isArray(classRoute.accesses) && classRoute.accesses.length) {
-    const apiPermission = classRoute.accesses.map(e => e.name).join(' ');
+    const apiPermission = classRoute.accesses.map(e => e.name || e).join(' ');
     fs.appendFileSync(file, ` * @apiPermission ${apiPermission}\n`);
   } else {
     fs.appendFileSync(file, ' * @apiPermission public\n');
@@ -115,7 +116,7 @@ export function end() {
   cmdApidoc.on('close', code => {
     if (code === 1) {
       // eslint-disable-next-line
-      console.error('[DocGenerator] an error when generate the apiDoc ');
+      console.error('[DocGenerator] an error occured when generating the apiDoc');
     }
     spawn(_getCmd('rm'), cmdArgsRm);
   });
