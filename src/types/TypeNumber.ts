@@ -107,10 +107,7 @@ export class TypeNumber extends TypeAny {
   }
 
   // Function when test and transform param
-  _isTypeNum = () => typeof this._value === 'number';
-  _isInteger = () => !!`${this._value}`.match(/^-{0,1}\d+$/);
-  _isFloat = () => !!`${this._value}`.match(/^-?\d+\.\d+$/);
-  _isNumber = () => this._isInteger() || this._isFloat();
+  _isNumber = () => !Number.isNaN(+this.value);
 
   _testType() {
     if (!this._isNumber()) {
