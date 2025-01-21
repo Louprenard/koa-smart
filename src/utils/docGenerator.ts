@@ -80,7 +80,7 @@ export function generateDoc(classRoute, route) {
     const apiPermission = options.accesses.map(e => e.name || e).join(' OR ');
     fs.appendFileSync(file, ` * @apiPermission ${apiPermission}\n`);
   } else if (Array.isArray(classRoute.accesses) && classRoute.accesses.length) {
-    const apiPermission = classRoute.accesses.map(e => e.name || e).join(' ');
+    const apiPermission = classRoute.accesses.map(e => e.name || e).join(' OR ');
     fs.appendFileSync(file, ` * @apiPermission ${apiPermission}\n`);
   } else {
     fs.appendFileSync(file, ' * @apiPermission public\n');
